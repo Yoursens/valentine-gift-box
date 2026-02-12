@@ -398,7 +398,7 @@ body::after {
     pointer-events: none;
 }
 
-/* ===== SPREAD LOVE BUTTON (Top Left) ===== */
+/* ===== SPREAD LOVE BUTTON (TOP-LEFT CORNER) ===== */
 #loveButton {
     position: fixed;
     top: 20px;
@@ -406,23 +406,38 @@ body::after {
     background: linear-gradient(145deg, #ff6b9d, #c9184a);
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 15px 30px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: 50px;
     cursor: pointer;
-    z-index: 50;
-    box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
-    transition: all 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(255, 107, 157, 0.5);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: buttonFloat 3s ease-in-out infinite;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #loveButton:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+    transform: translateY(-5px) scale(1.08);
+    box-shadow: 0 15px 40px rgba(255, 107, 157, 0.7);
+    background: linear-gradient(145deg, #ff8fa3, #ff6b9d);
 }
 
 #loveButton:active {
-    transform: translateY(-1px) scale(1.02);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.6);
+}
+
+@keyframes buttonFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 /* ===== LETTER CONTAINER ===== */
@@ -720,7 +735,7 @@ body::after {
     #loveButton {
         top: 15px;
         left: 15px;
-        padding: 10px 20px;
+        padding: 12px 24px;
         font-size: 14px;
     }
 
