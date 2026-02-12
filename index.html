@@ -1,86 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Valentine's Day ❤️</title>
-    <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Valentine's Day ❤️</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Floating Hearts Background -->
-        <div class="hearts-background" id="heartsBackground"></div>
-        
-        <!-- Main Gift Box -->
-        <div class="gift-container">
-            <div class="gift-box" id="giftBox">
-                <div class="box-top">
-                    <div class="ribbon-horizontal"></div>
-                    <div class="ribbon-vertical"></div>
-                    <div class="bow">
-                        <div class="bow-left"></div>
-                        <div class="bow-right"></div>
-                        <div class="bow-center"></div>
-                    </div>
-                </div>
-                <div class="box-bottom"></div>
-            </div>
-            
-            <div class="instruction">
-                <p class="pulse-text">Click the gift to open! 🎁</p>
-            </div>
+  <div class="container">
+    <!-- Floating Hearts Background -->
+    <div class="hearts-background" id="heartsBackground"></div>
+    
+    <!-- Main Gift Box -->
+    <div class="gift-container">
+      <div class="gift-box" id="giftBox">
+        <div class="box-top">
+          <div class="ribbon-horizontal"></div>
+          <div class="ribbon-vertical"></div>
+          <div class="bow">
+            <div class="bow-left"></div>
+            <div class="bow-right"></div>
+            <div class="bow-center"></div>
+          </div>
         </div>
-
-        <!-- Letter Content (Hidden Initially) -->
-        <div class="letter-container" id="letterContainer">
-            <div class="letter-close-btn" id="closeBtn">×</div>
-            
-            <div class="letter-paper">
-                <div class="letter-header">
-                    <h1 class="letter-title">My Dearest Valentine ❤️</h1>
-                    <p class="letter-date">February 14, 2026</p>
-                </div>
-                
-                <div class="letter-body">
-                    <p class="letter-paragraph">
-                        From the moment I met you, my life has been filled with joy and happiness. 
-                        Every day with you feels like a beautiful dream that I never want to end.
-                    </p>
-                    
-                    <p class="letter-paragraph">
-                        You are my sunshine on cloudy days, my comfort in difficult times, and my 
-                        greatest adventure. Your smile brightens my world, and your laughter is my 
-                        favorite melody.
-                    </p>
-                    
-                    <p class="letter-paragraph">
-                        Thank you for being you – for your kindness, your patience, your love, and 
-                        all the little things you do that make my heart skip a beat. You make 
-                        everything better just by being there.
-                    </p>
-                    
-                    <p class="letter-paragraph">
-                        On this special day, I want you to know that you mean the world to me. 
-                        You are not just my Valentine – you are my forever.
-                    </p>
-                    
-                    <p class="letter-paragraph letter-emphasis">
-                        I love you more than words can express. ❤️
-                    </p>
-                    
-                    <div class="letter-signature">
-                        <p class="signature-text">Forever yours,</p>
-                        <p class="signature-name">Your Love</p>
-                        <div class="signature-hearts">💕 💖 💕</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Particle Effects -->
-        <canvas id="particleCanvas"></canvas>
+        <div class="box-bottom"></div>
+      </div>
+      <div class="instruction">
+        <p class="pulse-text">Click the gift to open! 🎁</p>
+      </div>
     </div>
 
-    <script src="./js/script.js"></script>
+    <!-- Letter Content -->
+    <div class="letter-container" id="letterContainer">
+      <div id="letterCloseBtn" class="letter-close-btn">×</div>
+      <div class="letter-paper">
+        <div class="letter-header">
+          <h1 class="letter-title">My Dearest Valentine ❤️</h1>
+          <p class="letter-date">February 14, 2026</p>
+        </div>
+        <div class="letter-body">
+          <p class="letter-paragraph">
+            From the moment I met you, my life has been filled with joy and happiness. 
+            Every day with you feels like a beautiful dream that I never want to end.
+          </p>
+          <p class="letter-paragraph">
+            You are my sunshine on cloudy days, my comfort in difficult times, and my 
+            greatest adventure. Your smile brightens my world, and your laughter is my 
+            favorite melody.
+          </p>
+          <p class="letter-paragraph">
+            Thank you for being you – for your kindness, your patience, your love, and 
+            all the little things you do that make my heart skip a beat. You make 
+            everything better just by being there.
+          </p>
+          <p class="letter-paragraph">
+            On this special day, I want you to know that you mean the world to me. 
+            You are not just my Valentine – you are my forever.
+          </p>
+          <p class="letter-paragraph letter-emphasis">
+            I love you more than words can express. ❤️
+          </p>
+          <div class="letter-signature">
+            <p class="signature-text">Forever yours,</p>
+            <p class="signature-name">Your Love</p>
+            <div class="signature-hearts">💕 💖 💕</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Surprise Content -->
+    <div id="surpriseContent" class="hidden">
+      <p>🎉 Surprise content goes here!</p>
+      <button id="closeBtn">Close</button>
+    </div>
+
+    <!-- Fireworks -->
+    <div id="fireworksContainer"></div>
+
+    <!-- Love Button -->
+    <button id="loveButton">❤️ Spread Love ❤️</button>
+
+    <!-- Particle Effects -->
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <script src="./js/script.js"></script>
 </body>
 </html>
