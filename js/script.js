@@ -408,8 +408,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add heart explosion animation to CSS
-    const style = document.createElement('style');
-    style.textContent = `
+    const heartExplodeStyle = document.createElement('style');
+    heartExplodeStyle.textContent = `
         @keyframes heartExplode {
             0% {
                 transform: translate(-50%, -50%) scale(0);
@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     `;
-    document.head.appendChild(style);
+    document.head.appendChild(heartExplodeStyle);
 
     // ===== FIREWORKS =====
     function createFirework(x, y) {
