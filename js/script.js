@@ -68,9 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const giftBox = document.getElementById('giftBox');
     const giftContainer = document.querySelector('.gift-container');
-    const surpriseContent = document.getElementById('surpriseContent');
     const letterContainer = document.getElementById('letterContainer');
-    const closeBtn = document.getElementById('closeBtn');
     const letterCloseBtn = document.getElementById('letterCloseBtn');
     const loveButton = document.getElementById('loveButton');
     const heartsBackground = document.getElementById('heartsBackground');
@@ -260,13 +258,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 giftContainer.classList.add('hide');
             }, 800);
 
-            // Show letter or surprise content (check which exists)
+            // Show letter container
             setTimeout(() => {
                 if (letterContainer) {
                     letterContainer.classList.add('active');
                     createHeartExplosion();
-                } else if (surpriseContent) {
-                    surpriseContent.classList.add('active');
                 }
                 
                 // Create celebratory fireworks
@@ -277,13 +273,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===== CLOSE BUTTONS =====
-    // Function to reset everything back to gift box
+    // ===== CLOSE BUTTON FOR LETTER =====
     function resetToGiftBox() {
-        // Hide all content containers
-        if (surpriseContent) {
-            surpriseContent.classList.remove('active');
-        }
+        // Hide letter container
         if (letterContainer) {
             letterContainer.classList.remove('active');
         }
@@ -296,15 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 600);
     }
 
-    // Close button for surprise content
-    if (closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            resetToGiftBox();
-        });
-    }
-
     // Close button for letter container
     if (letterCloseBtn) {
         letterCloseBtn.addEventListener('click', (e) => {
@@ -313,16 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
             resetToGiftBox();
         });
     }
-
-    // Also handle close buttons by class name
-    const allCloseButtons = document.querySelectorAll('.close-btn, .letter-close-btn');
-    allCloseButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            resetToGiftBox();
-        });
-    });
 
     // ===== LOVE BUTTON =====
     if (loveButton) {
@@ -700,11 +673,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isMusicPlaying = true;
     musicToggle.addEventListener('click', () => {
-        if (isMusicPlaying) {
+        if (bgMusic && isMusicPlaying) {
             bgMusic.pause();
             musicToggle.innerHTML = '🔇';
             isMusicPlaying = false;
-        } else {
+        } else if (bgMusic) {
             bgMusic.play();
             musicToggle.innerHTML = '🔊';
             isMusicPlaying = true;
