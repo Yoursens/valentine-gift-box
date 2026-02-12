@@ -149,33 +149,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===== CLOSE BUTTONS =====
+    // Function to reset everything back to gift box
+    function resetToGiftBox() {
+        // Hide all content containers
+        if (surpriseContent) {
+            surpriseContent.classList.remove('active');
+        }
+        if (letterContainer) {
+            letterContainer.classList.remove('active');
+        }
+        
+        // Reset gift box after animation
+        setTimeout(() => {
+            giftContainer.classList.remove('hide');
+            giftBox.classList.remove('opening');
+            isOpened = false;
+        }, 600);
+    }
+
+    // Close button for surprise content
     if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            if (surpriseContent) {
-                surpriseContent.classList.remove('active');
-            }
-            
-            setTimeout(() => {
-                giftContainer.classList.remove('hide');
-                giftBox.classList.remove('opening');
-                isOpened = false;
-            }, 500);
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            resetToGiftBox();
         });
     }
 
+    // Close button for letter container
     if (letterCloseBtn) {
-        letterCloseBtn.addEventListener('click', () => {
-            if (letterContainer) {
-                letterContainer.classList.remove('active');
-            }
-            
-            setTimeout(() => {
-                giftContainer.classList.remove('hide');
-                giftBox.classList.remove('opening');
-                isOpened = false;
-            }, 600);
+        letterCloseBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            resetToGiftBox();
         });
     }
+
+    // Also handle close buttons by class name
+    const allCloseButtons = document.querySelectorAll('.close-btn, .letter-close-btn');
+    allCloseButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            resetToGiftBox();
+        });
+    });
 
     // ===== LOVE BUTTON =====
     if (loveButton) {
