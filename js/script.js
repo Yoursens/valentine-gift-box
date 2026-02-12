@@ -12,6 +12,87 @@ document.addEventListener('DOMContentLoaded', () => {
     const particleCanvas = document.getElementById('particleCanvas');
     const ctx = particleCanvas.getContext('2d');
 
+    // ===== BACKGROUND MUSIC =====
+    // Try multiple possible paths
+    const musicPaths = [
+        '../music/music.mp3',
+        'music/music.mp3',
+        './music/music.mp3',
+        '/music/music.mp3'
+    ];
+
+    let bgMusic = null;
+    let currentPathIndex = 0;
+
+    function tryLoadMusic() {
+        if (currentPathIndex >= musicPaths.length) {
+            console.error('❌ Could not load music from any path');
+            console.log('Tried paths:', musicPaths);
+            console.log('Make sure music.mp3 exists in your music folder');
+            return;
+        }
+
+        const path = musicPaths[currentPathIndex];
+        console.log('Trying to load music from:', path);
+        
+        bgMusic = new Audio(path);
+        bgMusic.loop = true;
+        bgMusic.volume = 0.6; // 60% volume
+        bgMusic.preload = 'auto';
+
+        bgMusic.addEventListener('canplaythrough', () => {
+            console.log('✅ Music loaded successfully from:', path);
+            playBackgroundMusic();
+        }, { once: true });
+
+        bgMusic.addEventListener('error', (e) => {
+            console.log('❌ Failed to load from:', path);
+            currentPathIndex++;
+            tryLoadMusic();
+        }, { once: true });
+
+        // Force load
+        bgMusic.load();
+    }
+
+    // Function to play music
+    function playBackgroundMusic() {
+        if (!bgMusic) {
+            console.log('Music not loaded yet');
+            return;
+        }
+
+        bgMusic.play()
+            .then(() => {
+                console.log('🎵 Music is now playing!');
+            })
+            .catch(error => {
+                console.log('⚠️ Autoplay blocked by browser');
+                console.log('👆 Click anywhere on the page to start music');
+            });
+    }
+
+    // Start loading music
+    tryLoadMusic();
+
+    // Ensure music plays on user interaction
+    let musicStarted = false;
+    const startMusic = () => {
+        if (!musicStarted && bgMusic) {
+            console.log('User interaction detected, starting music...');
+            playBackgroundMusic();
+            musicStarted = true;
+        }
+    };
+
+    // Listen for any user interaction
+    document.addEventListener('click', startMusic);
+    document.addEventListener('touchstart', startMusic);
+    document.addEventListener('keydown', startMusic);
+    
+    // Also try to start on gift box click
+    giftBox.addEventListener('click', startMusic);
+
     // Set canvas size
     particleCanvas.width = window.innerWidth;
     particleCanvas.height = window.innerHeight;
@@ -546,7 +627,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ===== MUSIC CONTROL TOGGLE =====
+    // Create music toggle button
+    const musicToggle = document.createElement('div');
+    musicToggle.innerHTML = '🔊';
+    musicToggle.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(145deg, #ff6b9d, #c9184a);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    `;
+    document.body.appendChild(musicToggle);
+
+    let isMusicPlaying = true;
+    musicToggle.addEventListener('click', () => {
+        if (isMusicPlaying) {
+            bgMusic.pause();
+            musicToggle.innerHTML = '🔇';
+            isMusicPlaying = false;
+        } else {
+            bgMusic.play();
+            musicToggle.innerHTML = '🔊';
+            isMusicPlaying = true;
+        }
+    });
+
+    musicToggle.addEventListener('mouseenter', () => {
+        musicToggle.style.transform = 'scale(1.1)';
+    });
+
+    musicToggle.addEventListener('mouseleave', () => {
+        musicToggle.style.transform = 'scale(1)';
+    });
+
     console.log('💝 Valentine\'s Day Gift Loaded Successfully! 💝');
     console.log('🎁 Click the gift box to reveal your surprise!');
     console.log('✨ Try the Konami Code for a special surprise! ✨');
+    console.log('🎵 Background music loaded! 🎵');
 });
