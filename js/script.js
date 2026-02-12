@@ -1,5 +1,71 @@
 // ===== INITIALIZE ELEMENTS =====
 document.addEventListener('DOMContentLoaded', () => {
+    // ===== CREATE START SCREEN =====
+    const startScreen = document.createElement('div');
+    startScreen.id = 'startScreen';
+    startScreen.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+    `;
+
+    const startButton = document.createElement('button');
+    startButton.innerHTML = '🎁 Start Experience 🎵';
+    startButton.style.cssText = `
+        background: linear-gradient(145deg, #ff6b9d, #c9184a);
+        color: white;
+        border: none;
+        padding: 20px 50px;
+        font-size: 24px;
+        font-weight: 700;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.5);
+        transition: all 0.3s ease;
+        animation: pulseButton 2s ease-in-out infinite;
+    `;
+
+    const startTitle = document.createElement('h1');
+    startTitle.innerHTML = '💝 Valentine\'s Surprise 💝';
+    startTitle.style.cssText = `
+        color: white;
+        font-size: 48px;
+        margin-bottom: 30px;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        font-family: 'Georgia', serif;
+    `;
+
+    // Add pulse animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulseButton {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    startButton.addEventListener('mouseenter', () => {
+        startButton.style.transform = 'scale(1.1)';
+    });
+
+    startButton.addEventListener('mouseleave', () => {
+        startButton.style.transform = 'scale(1)';
+    });
+
+    startScreen.appendChild(startTitle);
+    startScreen.appendChild(startButton);
+    document.body.appendChild(startScreen);
+
     const giftBox = document.getElementById('giftBox');
     const giftContainer = document.querySelector('.gift-container');
     const surpriseContent = document.getElementById('surpriseContent');
@@ -13,85 +79,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = particleCanvas.getContext('2d');
 
     // ===== BACKGROUND MUSIC =====
-    // Try multiple possible paths
-    const musicPaths = [
-        '../music/music.mp3',
-        'music/music.mp3',
-        './music/music.mp3',
-        '/music/music.mp3'
-    ];
-
     let bgMusic = null;
-    let currentPathIndex = 0;
-
-    function tryLoadMusic() {
-        if (currentPathIndex >= musicPaths.length) {
-            console.error('❌ Could not load music from any path');
-            console.log('Tried paths:', musicPaths);
-            console.log('Make sure music.mp3 exists in your music folder');
-            return;
-        }
-
-        const path = musicPaths[currentPathIndex];
-        console.log('Trying to load music from:', path);
-        
-        bgMusic = new Audio(path);
-        bgMusic.loop = true;
-        bgMusic.volume = 0.6; // 60% volume
-        bgMusic.preload = 'auto';
-
-        bgMusic.addEventListener('canplaythrough', () => {
-            console.log('✅ Music loaded successfully from:', path);
-            playBackgroundMusic();
-        }, { once: true });
-
-        bgMusic.addEventListener('error', (e) => {
-            console.log('❌ Failed to load from:', path);
-            currentPathIndex++;
-            tryLoadMusic();
-        }, { once: true });
-
-        // Force load
-        bgMusic.load();
-    }
-
-    // Function to play music
-    function playBackgroundMusic() {
-        if (!bgMusic) {
-            console.log('Music not loaded yet');
-            return;
-        }
-
-        bgMusic.play()
-            .then(() => {
-                console.log('🎵 Music is now playing!');
-            })
-            .catch(error => {
-                console.log('⚠️ Autoplay blocked by browser');
-                console.log('👆 Click anywhere on the page to start music');
-            });
-    }
-
-    // Start loading music
-    tryLoadMusic();
-
-    // Ensure music plays on user interaction
-    let musicStarted = false;
-    const startMusic = () => {
-        if (!musicStarted && bgMusic) {
-            console.log('User interaction detected, starting music...');
-            playBackgroundMusic();
-            musicStarted = true;
-        }
-    };
-
-    // Listen for any user interaction
-    document.addEventListener('click', startMusic);
-    document.addEventListener('touchstart', startMusic);
-    document.addEventListener('keydown', startMusic);
     
-    // Also try to start on gift box click
-    giftBox.addEventListener('click', startMusic);
+    function initMusic() {
+        // Try multiple possible paths
+        const musicPaths = [
+            'music/music.mp3',
+            './music/music.mp3',
+            '../music/music.mp3',
+            '/music/music.mp3'
+        ];
+
+        let currentPathIndex = 0;
+
+        function tryLoadMusic() {
+            if (currentPathIndex >= musicPaths.length) {
+                console.error('❌ Could not load music from any path');
+                console.log('Tried paths:', musicPaths);
+                console.log('Music will not play, but app will continue');
+                return;
+            }
+
+            const path = musicPaths[currentPathIndex];
+            console.log('Trying to load music from:', path);
+            
+            bgMusic = new Audio(path);
+            bgMusic.loop = true;
+            bgMusic.volume = 0.6;
+            bgMusic.preload = 'auto';
+
+            bgMusic.addEventListener('canplaythrough', () => {
+                console.log('✅ Music loaded successfully from:', path);
+                bgMusic.play()
+                    .then(() => console.log('🎵 Music playing!'))
+                    .catch(e => console.log('Music play failed:', e));
+            }, { once: true });
+
+            bgMusic.addEventListener('error', (e) => {
+                console.log('❌ Failed to load from:', path);
+                currentPathIndex++;
+                tryLoadMusic();
+            }, { once: true });
+
+            bgMusic.load();
+        }
+
+        tryLoadMusic();
+    }
+
+    // ===== START BUTTON CLICK =====
+    startButton.addEventListener('click', () => {
+        console.log('🎵 Starting experience...');
+        
+        // Initialize and play music
+        initMusic();
+        
+        // Fade out start screen
+        startScreen.style.opacity = '0';
+        setTimeout(() => {
+            startScreen.remove();
+        }, 500);
+    });
 
     // Set canvas size
     particleCanvas.width = window.innerWidth;
