@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day ❤️</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Floating Hearts Background -->
+        <div class="hearts-background" id="heartsBackground"></div>
+        
+        <!-- Main Gift Box -->
+        <div class="gift-container">
+            <div class="gift-box" id="giftBox">
+                <div class="box-top">
+                    <div class="ribbon-horizontal"></div>
+                    <div class="ribbon-vertical"></div>
+                    <div class="bow">
+                        <div class="bow-left"></div>
+                        <div class="bow-right"></div>
+                        <div class="bow-center"></div>
+                    </div>
+                </div>
+                <div class="box-bottom"></div>
+            </div>
+            
+            <div class="instruction">
+                <p class="pulse-text">Click the gift to open! 🎁</p>
+            </div>
+        </div>
+
+        <!-- Surprise Content (Hidden Initially) -->
+        <div class="surprise-content" id="surpriseContent">
+            <div class="close-btn" id="closeBtn">×</div>
+            
+            <div class="heart-3d-container">
+                <div class="heart-3d">
+                    <div class="heart-face front"></div>
+                    <div class="heart-face back"></div>
+                    <div class="heart-face left"></div>
+                    <div class="heart-face right"></div>
+                    <div class="heart-face top"></div>
+                    <div class="heart-face bottom"></div>
+                </div>
+            </div>
+
+            <h1 class="surprise-title">Happy Valentine's Day!</h1>
+            
+            <div class="message-card">
+                <p class="love-message">
+                    You are the reason I smile every day. ❤️<br>
+                    Thank you for being amazing!<br>
+                    <span class="signature">With all my love,</span>
+                </p>
+            </div>
+
+            <div class="interactive-elements">
+                <button class="love-button" id="loveButton">
+                    <span class="button-text">Send Love</span>
+                    <span class="heart-burst"></span>
+                </button>
+            </div>
+
+            <!-- Fireworks Container -->
+            <div class="fireworks-container" id="fireworksContainer"></div>
+        </div>
+
+        <!-- Particle Effects -->
+        <canvas id="particleCanvas"></canvas>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
