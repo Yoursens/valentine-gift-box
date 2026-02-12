@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const giftBox = document.getElementById('giftBox');
     const giftContainer = document.querySelector('.gift-container');
     const surpriseContent = document.getElementById('surpriseContent');
+    const letterContainer = document.getElementById('letterContainer');
     const closeBtn = document.getElementById('closeBtn');
+    const letterCloseBtn = document.getElementById('letterCloseBtn');
     const loveButton = document.getElementById('loveButton');
     const heartsBackground = document.getElementById('heartsBackground');
     const fireworksContainer = document.getElementById('fireworksContainer');
@@ -16,9 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== FLOATING HEARTS BACKGROUND =====
     function createFloatingHeart() {
+        const hearts = ['❤️', '💕', '💖', '💗', '💝', '💘'];
         const heart = document.createElement('div');
         heart.classList.add('floating-heart');
-        heart.innerHTML = '❤️';
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
         heart.style.left = Math.random() * 100 + '%';
         heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
         heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
@@ -42,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== PARTICLE SYSTEM =====
     class Particle {
         constructor(x, y) {
-            this.x = x;
-            this.y = y;
+            this.x = x || Math.random() * particleCanvas.width;
+            this.y = y || Math.random() * particleCanvas.height;
             this.size = Math.random() * 3 + 2;
             this.speedX = Math.random() * 6 - 3;
             this.speedY = Math.random() * 6 - 3;
@@ -123,51 +126,81 @@ document.addEventListener('DOMContentLoaded', () => {
             // Play sound effect (optional)
             playOpenSound();
 
-            // Hide gift box and show surprise
+            // Hide gift box
             setTimeout(() => {
                 giftContainer.classList.add('hide');
-                surpriseContent.classList.add('active');
+            }, 800);
+
+            // Show letter or surprise content (check which exists)
+            setTimeout(() => {
+                if (letterContainer) {
+                    letterContainer.classList.add('active');
+                    createHeartExplosion();
+                } else if (surpriseContent) {
+                    surpriseContent.classList.add('active');
+                }
                 
                 // Create celebratory fireworks
                 setTimeout(() => {
                     createMultipleFireworks();
                 }, 500);
-            }, 800);
+            }, 1000);
         }
     });
 
-    // ===== CLOSE BUTTON =====
-    closeBtn.addEventListener('click', () => {
-        surpriseContent.classList.remove('active');
-        
-        setTimeout(() => {
-            giftContainer.classList.remove('hide');
-            giftBox.classList.remove('opening');
-            isOpened = false;
-        }, 500);
-    });
+    // ===== CLOSE BUTTONS =====
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            if (surpriseContent) {
+                surpriseContent.classList.remove('active');
+            }
+            
+            setTimeout(() => {
+                giftContainer.classList.remove('hide');
+                giftBox.classList.remove('opening');
+                isOpened = false;
+            }, 500);
+        });
+    }
+
+    if (letterCloseBtn) {
+        letterCloseBtn.addEventListener('click', () => {
+            if (letterContainer) {
+                letterContainer.classList.remove('active');
+            }
+            
+            setTimeout(() => {
+                giftContainer.classList.remove('hide');
+                giftBox.classList.remove('opening');
+                isOpened = false;
+            }, 600);
+        });
+    }
 
     // ===== LOVE BUTTON =====
-    loveButton.addEventListener('click', (e) => {
-        const rect = loveButton.getBoundingClientRect();
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
-        
-        // Create heart particles
-        createHeartParticles(x, y);
-        
-        // Create fireworks
-        createMultipleFireworks();
-        
-        // Show message
-        showLoveMessage();
-    });
+    if (loveButton) {
+        loveButton.addEventListener('click', (e) => {
+            const rect = loveButton.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            // Create heart particles
+            createHeartParticles(x, y);
+            
+            // Create fireworks
+            createMultipleFireworks();
+            
+            // Show message
+            showLoveMessage();
+        });
+    }
 
     // ===== HEART PARTICLES =====
     function createHeartParticles(x, y) {
+        const hearts = ['❤️', '💕', '💖', '💗', '💝', '💘'];
         for (let i = 0; i < 20; i++) {
             const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
             heart.style.position = 'fixed';
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
@@ -194,8 +227,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ===== HEART EXPLOSION EFFECT (FOR LETTER) =====
+    function createHeartExplosion() {
+        if (!letterContainer) return;
+        
+        const hearts = ['❤️', '💕', '💖', '💗', '💝', '💘'];
+        
+        for (let i = 0; i < 30; i++) {
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.position = 'absolute';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.left = '50%';
+                heart.style.top = '50%';
+                heart.style.pointerEvents = 'none';
+                heart.style.zIndex = '1000';
+                
+                const angle = (Math.PI * 2 * i) / 30;
+                const velocity = Math.random() * 200 + 100;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                heart.style.animation = `heartExplode 1.5s ease-out forwards`;
+                heart.style.setProperty('--tx', tx + 'px');
+                heart.style.setProperty('--ty', ty + 'px');
+                
+                letterContainer.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 1500);
+            }, i * 30);
+        }
+    }
+
+    // Add heart explosion animation to CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes heartExplode {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
     // ===== FIREWORKS =====
     function createFirework(x, y) {
+        if (!fireworksContainer) return;
+        
         const colors = ['#ff6b9d', '#c9184a', '#ffd700', '#ffed4e', '#ff1493'];
         const particleCount = 30;
 
@@ -279,22 +363,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== SOUND EFFECTS (OPTIONAL) =====
     function playOpenSound() {
-        // Create a simple beep sound using Web Audio API
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        try {
+            // Create a simple beep sound using Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
 
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
 
-        oscillator.frequency.value = 800;
-        oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
 
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
 
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        } catch (error) {
+            console.log('Audio context not supported');
+        }
     }
 
     // ===== 3D HEART INTERACTION =====

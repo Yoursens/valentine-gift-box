@@ -323,7 +323,7 @@ body::after {
 .bow-right {
     right: 0;
     transform: rotate(45deg);
-    animation: bowPulse 1.5s ease-in-out infinite 0.2s;
+    animation: bowPulseRight 1.5s ease-in-out infinite 0.2s;
 }
 
 .bow-center {
@@ -346,10 +346,6 @@ body::after {
     50% {
         transform: rotate(-45deg) scale(1.1);
     }
-}
-
-.bow-right {
-    animation-name: bowPulseRight;
 }
 
 @keyframes bowPulseRight {
@@ -620,6 +616,241 @@ body::after {
     opacity: 0;
 }
 
+/* ===== LETTER CONTAINER ===== */
+.letter-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+    z-index: 20;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    backdrop-filter: blur(10px);
+}
+
+.letter-container.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* ===== LETTER CLOSE BUTTON ===== */
+.letter-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(145deg, #ff6b9d, #c9184a);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.letter-close-btn:hover {
+    transform: rotate(90deg) scale(1.1);
+    background: linear-gradient(145deg, #c9184a, #ff6b9d);
+}
+
+/* ===== LETTER PAPER ===== */
+.letter-paper {
+    background: linear-gradient(to bottom, #fffbf5 0%, #fff8f0 100%);
+    padding: 60px 50px 50px;
+    border-radius: 20px;
+    box-shadow: inset 0 0 50px rgba(255, 107, 157, 0.1);
+    position: relative;
+}
+
+/* Paper texture lines */
+.letter-paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(
+            transparent,
+            transparent 31px,
+            rgba(255, 107, 157, 0.1) 31px,
+            rgba(255, 107, 157, 0.1) 32px
+        );
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+/* ===== LETTER HEADER ===== */
+.letter-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid rgba(255, 107, 157, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.letter-title {
+    font-size: 32px;
+    background: linear-gradient(45deg, #ff6b9d, #c9184a, #ff6b9d);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    animation: gradientFlow 3s ease infinite;
+    font-weight: 700;
+    font-family: 'Georgia', serif;
+}
+
+.letter-date {
+    color: #999;
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* ===== LETTER BODY ===== */
+.letter-body {
+    position: relative;
+    z-index: 1;
+}
+
+.letter-paragraph {
+    font-size: 18px;
+    line-height: 2;
+    color: #333;
+    margin-bottom: 25px;
+    font-family: 'Georgia', serif;
+    text-align: justify;
+    text-indent: 40px;
+}
+
+.letter-paragraph:first-of-type::first-letter {
+    font-size: 48px;
+    font-weight: bold;
+    float: left;
+    line-height: 1;
+    margin-right: 8px;
+    margin-top: 5px;
+    background: linear-gradient(45deg, #ff6b9d, #c9184a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.letter-emphasis {
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    color: #c9184a;
+    text-indent: 0;
+    margin-top: 30px;
+}
+
+/* ===== LETTER SIGNATURE ===== */
+.letter-signature {
+    margin-top: 50px;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.signature-text {
+    font-size: 16px;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.signature-name {
+    font-size: 24px;
+    font-weight: 600;
+    background: linear-gradient(45deg, #ff6b9d, #c9184a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Brush Script MT', cursive;
+    margin-bottom: 10px;
+}
+
+.signature-hearts {
+    font-size: 20px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== LETTER SCROLL STYLING ===== */
+.letter-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter-container::-webkit-scrollbar-track {
+    background: rgba(255, 107, 157, 0.1);
+    border-radius: 10px;
+}
+
+.letter-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(145deg, #ff6b9d, #c9184a);
+    border-radius: 10px;
+}
+
+.letter-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(145deg, #c9184a, #ff6b9d);
+}
+
+/* ===== LETTER ENTRANCE ANIMATION ===== */
+@keyframes letterFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.letter-container.active .letter-header {
+    animation: letterFadeIn 0.6s ease 0.2s backwards;
+}
+
+.letter-container.active .letter-paragraph:nth-child(1) {
+    animation: letterFadeIn 0.6s ease 0.3s backwards;
+}
+
+.letter-container.active .letter-paragraph:nth-child(2) {
+    animation: letterFadeIn 0.6s ease 0.4s backwards;
+}
+
+.letter-container.active .letter-paragraph:nth-child(3) {
+    animation: letterFadeIn 0.6s ease 0.5s backwards;
+}
+
+.letter-container.active .letter-paragraph:nth-child(4) {
+    animation: letterFadeIn 0.6s ease 0.6s backwards;
+}
+
+.letter-container.active .letter-paragraph:nth-child(5) {
+    animation: letterFadeIn 0.6s ease 0.7s backwards;
+}
+
+.letter-container.active .letter-signature {
+    animation: letterFadeIn 0.6s ease 0.8s backwards;
+}
+
 /* ===== FIREWORKS ===== */
 .fireworks-container {
     position: fixed;
@@ -659,6 +890,30 @@ body::after {
     height: 100%;
     pointer-events: none;
     z-index: 5;
+}
+
+/* ===== ANIMATIONS FOR ENTRANCE ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.surprise-content.active .surprise-title {
+    animation: fadeInUp 0.6s ease 0.2s backwards;
+}
+
+.surprise-content.active .message-card {
+    animation: fadeInUp 0.6s ease 0.4s backwards;
+}
+
+.surprise-content.active .interactive-elements {
+    animation: fadeInUp 0.6s ease 0.6s backwards;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -724,28 +979,32 @@ body::after {
         width: 35%;
         height: 25%;
     }
-}
-
-/* ===== ANIMATIONS FOR ENTRANCE ===== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+    
+    /* Letter responsive styles */
+    .letter-container {
+        width: 95%;
+        max-height: 90vh;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .letter-paper {
+        padding: 50px 30px 40px;
     }
-}
-
-.surprise-content.active .surprise-title {
-    animation: fadeInUp 0.6s ease 0.2s backwards;
-}
-
-.surprise-content.active .message-card {
-    animation: fadeInUp 0.6s ease 0.4s backwards;
-}
-
-.surprise-content.active .interactive-elements {
-    animation: fadeInUp 0.6s ease 0.6s backwards;
+    
+    .letter-title {
+        font-size: 24px;
+    }
+    
+    .letter-paragraph {
+        font-size: 16px;
+        line-height: 1.8;
+        text-indent: 30px;
+    }
+    
+    .letter-paragraph:first-of-type::first-letter {
+        font-size: 36px;
+    }
+    
+    .signature-name {
+        font-size: 20px;
+    }
 }
